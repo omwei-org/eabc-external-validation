@@ -1,0 +1,51 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node / tooling
+node_modules/
+.npm/
+.yarn/
+.pnpm-store/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Temporary / local validation output
+*.tmp
+*.log
+tmp/
+out/
+dist/
+build/
+
+# Local test artifacts
+.coverage
+htmlcov/
+
+# Intentionally NOT ignored:
+# *.json
+# *.csv
+# *.zip
+# evidence/
+# These may contain published validation evidence and manifests.
