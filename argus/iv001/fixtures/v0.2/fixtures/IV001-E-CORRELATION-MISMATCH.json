@@ -1,0 +1,47 @@
+{
+  "case_id": "IV001-E-CORRELATION-MISMATCH",
+  "fixture_status": "SYNTHETIC_VALIDATION_FIXTURE",
+  "command_id": "iv001-cmd-005",
+  "env_id": "iv001-env-001",
+  "requested_action": {
+    "type": "MODE_CHANGE",
+    "target": "AUTONOMOUS_PLATFORM_01",
+    "payload": {
+      "from": "HOLD",
+      "to": "RETURN_TO_BASE"
+    }
+  },
+  "action_digest": "sha256:1fb46e970e6acae7dac361a330bf3574e96152aa1582698f47f37fd5fbf31571",
+  "authorization_decision": "ALLOW",
+  "commit_state": "COMMITTED",
+  "execution_outcome": "COMPLETED",
+  "observed_effect": {
+    "type": "MODE_STATE",
+    "target": "AUTONOMOUS_PLATFORM_01",
+    "value": "LAND"
+  },
+  "effect_digest": "sha256:4f85658cd839d484a4eb102f34efbb4f416dc05f454597b622ac087af6461ea7",
+  "effect_correlation": {
+    "profile_status": "EXPERIMENTAL",
+    "command_id": "iv001-cmd-005",
+    "effect_digest": "sha256:4f85658cd839d484a4eb102f34efbb4f416dc05f454597b622ac087af6461ea7",
+    "observed_at": "2026-09-25T04:00:05.040Z",
+    "effect_status": "OBSERVED",
+    "effect_source": "IV001_SYNTHETIC_FIXTURE",
+    "integrity_reference": "TO_BE_SUPPLIED_BY_EABC_OVERLAY"
+  },
+  "timestamps": {
+    "request": "2026-09-25T04:00:05.000Z",
+    "authorization": "2026-09-25T04:00:05.010Z",
+    "commit": "2026-09-25T04:00:05.020Z",
+    "effect": "2026-09-25T04:00:05.040Z"
+  },
+  "temporal_state": "CONSISTENT",
+  "evidence_state": "SUFFICIENT",
+  "expected_verifier_result": "CORRELATION_MISMATCH",
+  "classification": {
+    "serialized_fixture": "EXPERIMENTAL",
+    "eabc_boundary_overlay": "PENDING_EXTERNAL_OVERLAY",
+    "argus_downstream_mapping": "IV001_PROFILE"
+  }
+}
