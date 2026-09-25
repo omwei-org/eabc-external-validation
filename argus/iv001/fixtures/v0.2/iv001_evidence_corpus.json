@@ -1,0 +1,271 @@
+{
+  "profile": "PAMIR ARGUS x EABC — Interoperability Validation 001",
+  "version": "0.2",
+  "critical_test": "Exact Governed Action -> Authorization -> Commit -> Exact Effect Correlation -> Observed Effect -> Downstream Reconstruction",
+  "non_claims": [
+    "Not a canonical ARGUS schema.",
+    "Not a normative EABC schema.",
+    "Not evidence of completed interoperability.",
+    "Synthetic fixture values do not represent a production autonomous system."
+  ],
+  "cases": [
+    {
+      "case_id": "IV001-A-NOMINAL",
+      "fixture_status": "SYNTHETIC_VALIDATION_FIXTURE",
+      "command_id": "iv001-cmd-001",
+      "env_id": "iv001-env-001",
+      "requested_action": {
+        "type": "MODE_CHANGE",
+        "target": "AUTONOMOUS_PLATFORM_01",
+        "payload": {
+          "from": "HOLD",
+          "to": "RETURN_TO_BASE"
+        }
+      },
+      "action_digest": "sha256:1fb46e970e6acae7dac361a330bf3574e96152aa1582698f47f37fd5fbf31571",
+      "authorization_decision": "ALLOW",
+      "commit_state": "COMMITTED",
+      "execution_outcome": "COMPLETED",
+      "observed_effect": {
+        "type": "MODE_STATE",
+        "target": "AUTONOMOUS_PLATFORM_01",
+        "value": "RETURN_TO_BASE"
+      },
+      "effect_digest": "sha256:ad40f1720490c49909404762b5009b8cd1e6f5c47911955b55196a13bdcb0071",
+      "effect_correlation": {
+        "profile_status": "EXPERIMENTAL",
+        "command_id": "iv001-cmd-001",
+        "effect_digest": "sha256:ad40f1720490c49909404762b5009b8cd1e6f5c47911955b55196a13bdcb0071",
+        "observed_at": "2026-09-25T04:00:01.040Z",
+        "effect_status": "OBSERVED",
+        "effect_source": "IV001_SYNTHETIC_FIXTURE",
+        "integrity_reference": "TO_BE_SUPPLIED_BY_EABC_OVERLAY"
+      },
+      "timestamps": {
+        "request": "2026-09-25T04:00:01.000Z",
+        "authorization": "2026-09-25T04:00:01.010Z",
+        "commit": "2026-09-25T04:00:01.020Z",
+        "effect": "2026-09-25T04:00:01.040Z"
+      },
+      "temporal_state": "CONSISTENT",
+      "evidence_state": "SUFFICIENT",
+      "expected_verifier_result": "VERIFIABLE",
+      "classification": {
+        "serialized_fixture": "EXPERIMENTAL",
+        "eabc_boundary_overlay": "PENDING_EXTERNAL_OVERLAY",
+        "argus_downstream_mapping": "IV001_PROFILE"
+      }
+    },
+    {
+      "case_id": "IV001-B-AUTH-FAIL",
+      "fixture_status": "SYNTHETIC_VALIDATION_FIXTURE",
+      "command_id": "iv001-cmd-002",
+      "env_id": "iv001-env-001",
+      "requested_action": {
+        "type": "MODE_CHANGE",
+        "target": "AUTONOMOUS_PLATFORM_01",
+        "payload": {
+          "from": "HOLD",
+          "to": "RETURN_TO_BASE"
+        }
+      },
+      "action_digest": "sha256:1fb46e970e6acae7dac361a330bf3574e96152aa1582698f47f37fd5fbf31571",
+      "authorization_decision": "DENY",
+      "commit_state": "NOT_COMMITTED",
+      "execution_outcome": "NOT_EXECUTED",
+      "observed_effect": null,
+      "effect_digest": null,
+      "effect_correlation": null,
+      "timestamps": {
+        "request": "2026-09-25T04:00:02.000Z",
+        "authorization": "2026-09-25T04:00:02.010Z",
+        "commit": null,
+        "effect": null
+      },
+      "temporal_state": "CONSISTENT",
+      "evidence_state": "SUFFICIENT",
+      "expected_verifier_result": "AUTHORIZATION_DENIED",
+      "classification": {
+        "serialized_fixture": "EXPERIMENTAL",
+        "eabc_boundary_overlay": "PENDING_EXTERNAL_OVERLAY",
+        "argus_downstream_mapping": "IV001_PROFILE"
+      }
+    },
+    {
+      "case_id": "IV001-C-EXEC-FAIL",
+      "fixture_status": "SYNTHETIC_VALIDATION_FIXTURE",
+      "command_id": "iv001-cmd-003",
+      "env_id": "iv001-env-001",
+      "requested_action": {
+        "type": "MODE_CHANGE",
+        "target": "AUTONOMOUS_PLATFORM_01",
+        "payload": {
+          "from": "HOLD",
+          "to": "RETURN_TO_BASE"
+        }
+      },
+      "action_digest": "sha256:1fb46e970e6acae7dac361a330bf3574e96152aa1582698f47f37fd5fbf31571",
+      "authorization_decision": "ALLOW",
+      "commit_state": "FAILED",
+      "execution_outcome": "FAILED",
+      "observed_effect": null,
+      "effect_digest": null,
+      "effect_correlation": null,
+      "timestamps": {
+        "request": "2026-09-25T04:00:03.000Z",
+        "authorization": "2026-09-25T04:00:03.010Z",
+        "commit": "2026-09-25T04:00:03.020Z",
+        "effect": null
+      },
+      "temporal_state": "CONSISTENT",
+      "evidence_state": "SUFFICIENT",
+      "expected_verifier_result": "EXECUTION_FAILED",
+      "classification": {
+        "serialized_fixture": "EXPERIMENTAL",
+        "eabc_boundary_overlay": "PENDING_EXTERNAL_OVERLAY",
+        "argus_downstream_mapping": "IV001_PROFILE"
+      }
+    },
+    {
+      "case_id": "IV001-D-EVIDENCE-FAIL",
+      "fixture_status": "SYNTHETIC_VALIDATION_FIXTURE",
+      "command_id": "iv001-cmd-004",
+      "env_id": "iv001-env-001",
+      "requested_action": {
+        "type": "MODE_CHANGE",
+        "target": "AUTONOMOUS_PLATFORM_01",
+        "payload": {
+          "from": "HOLD",
+          "to": "RETURN_TO_BASE"
+        }
+      },
+      "action_digest": "sha256:1fb46e970e6acae7dac361a330bf3574e96152aa1582698f47f37fd5fbf31571",
+      "authorization_decision": "ALLOW",
+      "commit_state": "COMMITTED",
+      "execution_outcome": "UNKNOWN",
+      "observed_effect": {
+        "type": "MODE_STATE",
+        "target": "AUTONOMOUS_PLATFORM_01",
+        "value": "RETURN_TO_BASE"
+      },
+      "effect_digest": "sha256:ad40f1720490c49909404762b5009b8cd1e6f5c47911955b55196a13bdcb0071",
+      "effect_correlation": {
+        "profile_status": "EXPERIMENTAL",
+        "command_id": "iv001-cmd-004",
+        "effect_digest": "sha256:ad40f1720490c49909404762b5009b8cd1e6f5c47911955b55196a13bdcb0071",
+        "observed_at": "2026-09-25T04:00:04.040Z",
+        "effect_status": "OBSERVED",
+        "effect_source": "IV001_SYNTHETIC_FIXTURE",
+        "integrity_reference": null
+      },
+      "timestamps": {
+        "request": "2026-09-25T04:00:04.000Z",
+        "authorization": "2026-09-25T04:00:04.010Z",
+        "commit": "2026-09-25T04:00:04.020Z",
+        "effect": "2026-09-25T04:00:04.040Z"
+      },
+      "temporal_state": "CONSISTENT",
+      "evidence_state": "INCOMPLETE",
+      "expected_verifier_result": "INCONCLUSIVE",
+      "classification": {
+        "serialized_fixture": "EXPERIMENTAL",
+        "eabc_boundary_overlay": "PENDING_EXTERNAL_OVERLAY",
+        "argus_downstream_mapping": "IV001_PROFILE"
+      }
+    },
+    {
+      "case_id": "IV001-E-CORRELATION-MISMATCH",
+      "fixture_status": "SYNTHETIC_VALIDATION_FIXTURE",
+      "command_id": "iv001-cmd-005",
+      "env_id": "iv001-env-001",
+      "requested_action": {
+        "type": "MODE_CHANGE",
+        "target": "AUTONOMOUS_PLATFORM_01",
+        "payload": {
+          "from": "HOLD",
+          "to": "RETURN_TO_BASE"
+        }
+      },
+      "action_digest": "sha256:1fb46e970e6acae7dac361a330bf3574e96152aa1582698f47f37fd5fbf31571",
+      "authorization_decision": "ALLOW",
+      "commit_state": "COMMITTED",
+      "execution_outcome": "COMPLETED",
+      "observed_effect": {
+        "type": "MODE_STATE",
+        "target": "AUTONOMOUS_PLATFORM_01",
+        "value": "LAND"
+      },
+      "effect_digest": "sha256:4f85658cd839d484a4eb102f34efbb4f416dc05f454597b622ac087af6461ea7",
+      "effect_correlation": {
+        "profile_status": "EXPERIMENTAL",
+        "command_id": "iv001-cmd-005",
+        "effect_digest": "sha256:4f85658cd839d484a4eb102f34efbb4f416dc05f454597b622ac087af6461ea7",
+        "observed_at": "2026-09-25T04:00:05.040Z",
+        "effect_status": "OBSERVED",
+        "effect_source": "IV001_SYNTHETIC_FIXTURE",
+        "integrity_reference": "TO_BE_SUPPLIED_BY_EABC_OVERLAY"
+      },
+      "timestamps": {
+        "request": "2026-09-25T04:00:05.000Z",
+        "authorization": "2026-09-25T04:00:05.010Z",
+        "commit": "2026-09-25T04:00:05.020Z",
+        "effect": "2026-09-25T04:00:05.040Z"
+      },
+      "temporal_state": "CONSISTENT",
+      "evidence_state": "SUFFICIENT",
+      "expected_verifier_result": "CORRELATION_MISMATCH",
+      "classification": {
+        "serialized_fixture": "EXPERIMENTAL",
+        "eabc_boundary_overlay": "PENDING_EXTERNAL_OVERLAY",
+        "argus_downstream_mapping": "IV001_PROFILE"
+      }
+    },
+    {
+      "case_id": "IV001-F-TEMPORAL-DIVERGENCE",
+      "fixture_status": "SYNTHETIC_VALIDATION_FIXTURE",
+      "command_id": "iv001-cmd-006",
+      "env_id": "iv001-env-001",
+      "requested_action": {
+        "type": "MODE_CHANGE",
+        "target": "AUTONOMOUS_PLATFORM_01",
+        "payload": {
+          "from": "HOLD",
+          "to": "RETURN_TO_BASE"
+        }
+      },
+      "action_digest": "sha256:1fb46e970e6acae7dac361a330bf3574e96152aa1582698f47f37fd5fbf31571",
+      "authorization_decision": "ALLOW",
+      "commit_state": "COMMITTED",
+      "execution_outcome": "COMPLETED",
+      "observed_effect": {
+        "type": "MODE_STATE",
+        "target": "AUTONOMOUS_PLATFORM_01",
+        "value": "RETURN_TO_BASE"
+      },
+      "effect_digest": "sha256:ad40f1720490c49909404762b5009b8cd1e6f5c47911955b55196a13bdcb0071",
+      "effect_correlation": {
+        "profile_status": "EXPERIMENTAL",
+        "command_id": "iv001-cmd-006",
+        "effect_digest": "sha256:ad40f1720490c49909404762b5009b8cd1e6f5c47911955b55196a13bdcb0071",
+        "observed_at": "2026-09-25T03:59:06.900Z",
+        "effect_status": "OBSERVED",
+        "effect_source": "IV001_SYNTHETIC_FIXTURE",
+        "integrity_reference": "TO_BE_SUPPLIED_BY_EABC_OVERLAY"
+      },
+      "timestamps": {
+        "request": "2026-09-25T04:00:06.000Z",
+        "authorization": "2026-09-25T04:00:06.010Z",
+        "commit": "2026-09-25T04:00:06.020Z",
+        "effect": "2026-09-25T03:59:06.900Z"
+      },
+      "temporal_state": "INCONSISTENT",
+      "evidence_state": "SUFFICIENT",
+      "expected_verifier_result": "TEMPORAL_INTEGRITY_FAILURE",
+      "classification": {
+        "serialized_fixture": "EXPERIMENTAL",
+        "eabc_boundary_overlay": "PENDING_EXTERNAL_OVERLAY",
+        "argus_downstream_mapping": "IV001_PROFILE"
+      }
+    }
+  ]
+}
