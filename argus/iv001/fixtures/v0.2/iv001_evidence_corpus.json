@@ -1,5 +1,5 @@
 {
-  "profile": "PAMIR ARGUS x EABC — Interoperability Validation 001",
+  "profile": "PAMIR ARGUS x EABC \u2014 Interoperability Validation 001",
   "version": "0.2",
   "critical_test": "Exact Governed Action -> Authorization -> Commit -> Exact Effect Correlation -> Observed Effect -> Downstream Reconstruction",
   "non_claims": [
