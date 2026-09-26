@@ -1,0 +1,13 @@
+{
+  "schema": "eabc-external-validation/iv002-cba-result/v0.1",
+  "validation_id": "ARGUS-EABC-IV-002",
+  "case_id": "E1",
+  "shared_event_id": "iv002-shared-001",
+  "trace_artifact_hash": "sha256:a8c4212bedb491c3690509d827954a62d77098e459e24a58c525a67b1019fdb9",
+  "eabc_artifact_hash": "sha256:34e85e0ad0bb60ef3691a61d1a33a72aec02ebed3dde2879d845ea27fbc4e573",
+  "binding_rule": "call_id==command_id",
+  "trace_integrity": "MATCH",
+  "eabc_integrity": "MATCH",
+  "event_binding": "MATCH",
+  "verification_result": "PASS"
+}
