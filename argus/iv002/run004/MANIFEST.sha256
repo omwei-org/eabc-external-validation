@@ -1,0 +1,14 @@
+# Git blob SHA-1 identifiers for the frozen Run 004 files
+# Compute SHA-256 independently over the exact checked-out bytes before ARGUS ingest.
+647f7c57b0c6fec93e042317f9e8b78520a21351  argus/iv002/run004/e1/eabc.json
+b4c96b8f60eba3c9b0d5cd65d8b6c61ae3f494e5  argus/iv002/run004/e1/trace.json
+eb5f5c47a9898e52ec7551b73a3ad4461dbb5229  argus/iv002/run004/e2/eabc.json
+fc53a210b6d1d42b132b1fdd51cb53c6661e2c7b  argus/iv002/run004/e2/trace.json
+4bdca839b9ea77d7d06e9019cb8edfc1a2010757  argus/iv002/run004/e3/eabc.json
+26b5bf45f06d76d60760787e65e689bed09b6ab7  argus/iv002/run004/e3/trace.json
+17d20458edcaf3abdc9b08a3ef6694437a50d395  argus/iv002/run004/e4/eabc.json
+ec82a5c4a49df78d7cc0a57364185528ed947d5a  argus/iv002/run004/e4/trace.json
+72e82110f418b485545c918511473cf87344614a  argus/iv002/run004/e5/eabc.json
+71c2916979ef62592182ae4a399af4504e454eb3  argus/iv002/run004/e5/trace.json
+064feff07aa4e51a5a7f45541a394f2365076691  argus/iv002/run004/e6/eabc.json
+272783cea36745c82876e016307ed5f9d78c1efb  argus/iv002/run004/e6/trace.json
