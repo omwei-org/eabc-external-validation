@@ -1,0 +1,52 @@
+{
+  "name": "iv002-run004-e1",
+  "description": "IV-002 controlled fixture derived from the public TRACE action-receipt conformance shape. It binds the TRACE call to the experiment shared event identifier without claiming semantic equivalence with EABC.",
+  "profile": "trace.action_receipt.conformance.v0",
+  "context": {
+    "call_id": "iv002-shared-001",
+    "expected_previous_receipt_hash": "sha256:c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+    "max_receipt_age_seconds": 300,
+    "require_receipt": true,
+    "session_id": "trace-session-iv002-shared-001",
+    "verification_time": "2026-09-26T06:05:00Z"
+  },
+  "action": {
+    "agent_id": "spiffe://factory.example/agent/iv002-test",
+    "action_scope": "iv002.shared_event",
+    "action_timestamp": "2026-09-26T06:00:00Z",
+    "action_type": "iv002.controlled_event/SharedControlledEvent",
+    "action_ref": "sha256:b27ff12c7fab92838638726fda2e0d3bd4cbc7cd3013a5a69308319570adc600"
+  },
+  "trusted_issuer_keys": {
+    "did:web:factory.example:safety-controller#ed25519-coverage-2026q3": {
+      "crv": "Ed25519",
+      "kty": "OKP",
+      "x": "GUrISuzIssGcot1U1RFv02lETpxCYoQ0tz421ALSdqE"
+    }
+  },
+  "evidence": {
+    "completeness_claim": "not_proven",
+    "physical_completion_claim": "none",
+    "terminal_state": "accepted"
+  },
+  "receipt": {
+    "action_ref": "sha256:b27ff12c7fab92838638726fda2e0d3bd4cbc7cd3013a5a69308319570adc600",
+    "decision": "accepted",
+    "evidence_hash": "sha256:cf43260df01d89b5ce9ed0dce484ae1e3331fb477efda92cd0fd9365df9089d7",
+    "evidence_type": "application/vnd.agentrust.action-receipt+json",
+    "issued_at": "2026-09-26T06:00:02Z",
+    "issuer": "did:web:factory.example:safety-controller",
+    "issuer_independence": "separate_process",
+    "issuer_key_id": "did:web:factory.example:safety-controller#ed25519-coverage-2026q3",
+    "linked_call_id": "iv002-shared-001",
+    "previous_receipt_hash": "sha256:c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+    "session_id": "trace-session-iv002-shared-001",
+    "signature": "14rrmhUvKxgK1StnuwGJuYnTmG_5i2o2EsIYSywNeUTcsCDWfSswYsycRbnbcPmpRyPHnd1BhqWegGD59kOVCQ"
+  },
+  "expected": {
+    "controller_outcome": "accepted",
+    "failures": [],
+    "status": "receipt_valid_accepted",
+    "warnings": []
+  }
+}
