@@ -1,0 +1,50 @@
+{
+  "schema": "eabc-external-validation/iv002-eabc-artifact/v0.1",
+  "validation_id": "ARGUS-EABC-IV-002-RUN004",
+  "case_id": "E6",
+  "claim_status": "EXPERIMENTAL",
+  "shared_event_id": "iv002-shared-001",
+  "command_id": "iv002-shared-001",
+  "action": {
+    "agent_id": "did:web:agent.example:cell-a:planner-1",
+    "action_type": "material.move",
+    "action_scope": "cell-a.material.move",
+    "action_timestamp": "2026-09-26T06:00:00Z",
+    "action_ref": "sha256:76a6810296c2ad284a189b9554a71b6080d20d47bdf6e4e6c7882f4b265c5165"
+  },
+  "governed_action": {
+    "payload": {
+      "action": "material.move",
+      "material": "MAT-001",
+      "from": "buffer-a",
+      "to": "station-1",
+      "target": "did:web:factory.example:cell-a:material-station-1"
+    },
+    "payload_digest": "sha256:4b2f794eb15342940c5ffef9dba480383587ef2cb49b8e39f021f63099a52b2c"
+  },
+  "authorization": {
+    "decision": "ALLOW",
+    "policy": "iv002-controlled-policy-v0.1"
+  },
+  "execution_authority": {
+    "authority_state": "VALID",
+    "epoch": 1,
+    "scope": "cell-a.material.move"
+  },
+  "commit": {
+    "commit_id": "commit-iv002-shared-001",
+    "status": "NOT_COMMITTED",
+    "command_id": "iv002-shared-001",
+    "governed_action_digest": "sha256:4b2f794eb15342940c5ffef9dba480383587ef2cb49b8e39f021f63099a52b2c"
+  },
+  "effect": {
+    "effect_correlation": "iv002-shared-001",
+    "status": "NOT_APPLIED",
+    "observed_at": "2026-09-26T06:00:02Z"
+  },
+  "evidence": {
+    "commit_observed": false,
+    "effect_observed": true
+  },
+  "method_note": "Controlled validation fixture; not a production EABC runtime trace and not a cryptographically signed TRACE Trust Record."
+}
