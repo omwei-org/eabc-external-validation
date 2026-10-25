@@ -131,65 +131,15 @@ The execution guard's reference implementation does contain a meaningful prevent
 That mechanism does not alone establish that an asynchronous device command, remote service, physical actuator, or bypass path remains governed after the callback returns. Nor does it supply the missing IV-001 evidence binding the exact commit to the observed downstream effect. The external validation and the execution guard therefore address complementary parts of Stephen's question; the end-to-end claim remains unproven until the ARGUS reconstruction and the actual effect-boundary behavior are evidenced.
 
 
-## 10. Cross-repository evidence: Factory Execution Authority MVP
 
-Inspection of `omwei-org/factory-ea-mvp` changes the case assessment: it contains a more developed protected-commit prototype than the standalone `eabc-execution-guard` tests inspected above. The relevant integration is in draft PR [#9](https://github.com/omwei-org/factory-ea-mvp/pull/9), head SHA `0820c2f5a5c4b554cba81d97c91b19f702bc8fd1`, targeting draft PR #5 rather than `main`. It is not merged.
+## 10. External implementation candidate — disclosure boundary
 
-### Evidence actually present
+A separate implementation has been identified as a candidate for future external validation. Its repository and implementation-specific details are not reproduced in this public audit. No claims about that candidate's internal tests, security gaps, or CI are made here.
 
-- `ProtectedCommitGate` verifies the signed factory authorization and current protected governance/revocation state, reserves a sequence, and calls the configured capability while holding the governance lock.
-- The stacked EGA integration requires a signed EGA envelope, an independently configured EGA trust store and scope policy, and binds the authority to the DecisionRecord digest and AEE evidence snapshot before the factory commit authorization is accepted.
-- The OPC UA public method accepts a server-issued opaque `authority_ref`; it resolves server-side to the request and routes through the protected gate rather than accepting caller-supplied payload, principal, trust store, or raw factory authorization.
-- `CommitEvidenceLog` appends a `PREPARED` record and fsyncs it before invoking the effect capability, then appends `COMMIT` or `OUTCOME_UNKNOWN`. On startup it verifies the local hash chain and reconstructs commit sequence / replay high-water marks. A PREPARED-only record consumes the sequence conservatively.
-- Tests in `tests/test_opcua_atomicity.py`, `tests/test_protected_commit.py`, and `tests/test_commit_evidence.py` cover the integrated public route, synchronous revocation/commit serialization, exact payload binding, rejected requests, replay after restart, failed pre-effect evidence write, and outcome ambiguity for async effects.
-
-### CI evidence at the inspected integration head
-
-For the exact SHA `0820c2f5a5c4b554cba81d97c91b19f702bc8fd1`, GitHub Actions reports all three workflows succeeded on 2026-10-20:
-
-- [Python Tests #109](https://github.com/omwei-org/factory-ea-mvp/actions/runs/39488286309) — success
-- [L2 Process Isolation #156](https://github.com/omwei-org/factory-ea-mvp/actions/runs/39488286322) — success
-- [WASM Conformance #163](https://github.com/omwei-org/factory-ea-mvp/actions/runs/39488286284) — success
-
-These are commit-specific software CI results. They do not establish a physical actuator test or a hardware non-bypassability claim.
-
-### Gaps explicitly recorded by the project itself
-
-The integration's `docs/SW_IMPERFECTIONS.md` is an important gap register, not a blanket claim of closure:
-
-| Stephen-related concern | Factory EA MVP finding |
-|---|---|
-| Authority changes before synchronous effect | Closed in software for the synchronous gate effect, with an integrated OPC UA race test |
-| Replay / duplicate authorization | Replay is guarded in-process and reconstructed from the local evidence log after restart; tests cover restart replay prevention |
-| Evidence-write failure before effect | Fail-closed: if PREPARED cannot be persisted, the effect is not attempted |
-| Crash after effect but before terminal evidence | Outcome is fundamentally ambiguous; PREPARED remains, sequence is consumed, and the system must not claim confirmed success or safe retry |
-| Asynchronous/remote effect | Returns `OUTCOME_UNKNOWN`; downstream-owned commit point and response/idempotency protocol remain necessary |
-| OPC UA caller identity | OPEN: `authority_ref` is a bearer reference, not binding to an authenticated session principal; anonymous-client test is strict-xfail |
-| Direct capability / actuator bypass | OPEN: another reference in the same process can call the capability directly; OPC UA-route tests do not prove the absence of alternate paths |
-| DownstreamCommitGate integration | OPEN / NOT INTEGRATED: the separate downstream gate is not on the current OPC UA route |
-| Audit integrity against host administrator | OPEN: local hash chain detects tampering but a host actor able to rewrite the file can recompute the chain |
-| Physical non-bypassability | Not established; requires the L4 effect topology and hardware evidence |
-
-One additional source limitation matters for temporal continuity: the EGA adapter binds the epoch and sequence values supplied by its factory caller. The signature proves what was signed; it does not independently prove that those values were sourced from the current protected governance authority. The commit gate checks its protected current epoch, but provenance of upstream values and deployment trust boundaries must not be conflated.
-
-### Revised case-level assessment after inspecting Factory EA MVP
-
-| Case | Revised assessment |
-|---|---|
-| C01 — stale / revoked authority before synchronous commit | IMPLEMENTED IN SOFTWARE; CI passed at the exact PR #9 head |
-| C03 — payload/action substitution | IMPLEMENTED IN SOFTWARE for signed payload binding; downstream physical effect identity still requires independent evidence |
-| C04 — replay / duplicate | IMPLEMENTED IN SOFTWARE for sequence guard and local-log restart recovery at the tested head; local log is not tamper-proof against a privileged host |
-| C05 — concurrent governance transition vs synchronous commit | IMPLEMENTED IN SOFTWARE; integrated OPC UA race test and CI passed |
-| C06 — partial failure | PARTIALLY HANDLED: durable PREPARED marker and OUTCOME_UNKNOWN avoid false certainty, but cannot reconstruct whether a physical effect occurred after a crash in the critical window |
-| C07 — evidence integrity | PARTIALLY HANDLED: hash-chain verification and fsync exist; no independent witness or host-resistant append-only storage |
-| C08 — bypass path / hardware isolation | GAP / NOT ESTABLISHED; explicitly acknowledged by the repository |
-| C02 — state changes after dispatch to an async/remote actuator | GAP for end-to-end prevention; software returns OUTCOME_UNKNOWN rather than claiming effect-boundary atomicity |
-| Independent observed-effect correlation (IV-001) | STILL NOT ESTABLISHED by the reviewed Factory EA artifacts; local commit evidence describes the software gate/effect callback, not an independent downstream observation and reconstruction |
+The next IV-001 step remains to select an implementation version that can be referenced by an approved evidence manifest, execute the external validation corpus, and publish only evidence that the implementation owner has authorized for disclosure.
 
 ## 11. Updated answer to Stephen
 
-The Factory EA MVP demonstrates more than a simple epoch check. At its inspected draft PR #9 head, it combines signed EGA authority, explicit scope policy, protected commit-time governance checks, sequence replay protection, an OPC UA route through a protected gate, and a durable local PREPARED/COMMIT/OUTCOME_UNKNOWN evidence log. All three CI workflows passed for that exact head.
+EABC External Validation treats commit-to-effect correlation and independent reconstruction as an explicit validation boundary. The current IV-001 record still leaves exact effect correlation unestablished and downstream reconstruction pending.
 
-That is meaningful software-level evidence for continuity up to a synchronous configured effect capability. It is not yet proof of end-to-end continuity to an arbitrary external or physical consequence. The project explicitly leaves open caller identity binding, in-process effect bypass, downstream-gate integration, host-resistant evidence storage, and hardware non-bypassability. For a crash after a possible physical effect but before terminal evidence, it correctly retains uncertainty instead of claiming either success or safe retry.
-
-Therefore the accurate conclusion is: **the synchronous software commit boundary and replay/evidence handling are substantially implemented and CI-tested in the draft Factory EA integration; independent downstream effect reconstruction and the real deployment effect boundary remain unproven.** IV-001 should use this MVP as a candidate implementation under test, pin the exact PR/head SHA, exercise its public path, and separately capture the downstream observed effect and reconstruction. It must not treat the existence of local `COMMIT` evidence as a substitute for independent effect evidence.
+A separate implementation may provide candidate evidence for the software enforcement boundary, but such evidence must be evaluated independently and must not be substituted for the downstream observed-effect record. Preventive enforcement and independent evidence correlation remain separate claims. Any implementation-specific results should be published only in a repository and at a disclosure level approved by that implementation's owner.
