@@ -96,3 +96,36 @@ For a physical or otherwise irreversible consequence, the validation must identi
 EABC External Validation already treats commit-to-effect correlation and independent reconstruction as an explicit validation boundary. The IV-001 status currently available, however, leaves exact effect correlation unestablished and downstream reconstruction pending. It therefore identifies the right question but does not yet demonstrate a complete answer.
 
 The next proof must show both (a) whether independent evidence binds the exact committed action to the observed effect and (b), where a prevention guarantee is claimed, whether the actual enforcement boundary rejects or inhibits the effect when governing conditions change. These are separate claims and should receive separate test results.
+
+
+## 8. Follow-up source inspection: Execution Guard
+
+The public default-branch source in `omwei-org/eabc-execution-guard` adds a more precise result than the README alone:
+
+- `tests/test_guard.py::test_stale_epoch` asserts that an object prepared before revocation is blocked with `STALE_EPOCH` and no permit.
+- `tests/test_guard.py::test_revoked_authority` asserts that inactive authority is blocked with `REVOKED`.
+- `tests/test_guard.py::test_reauthorization_does_not_revive_old_object` asserts that revocation followed by reauthorization does not revive an old prepared object.
+- `tests/test_guard.py::test_payload_mutation_is_blocked` asserts that payload substitution is blocked with `INVALID_BINDING`.
+- `tests/test_guard.py::test_effect_commit_is_serialized_against_revocation` uses two threads and a synchronous callback to assert that revocation waits while the effect callback holds the authority lock, then observes authority as inactive.
+
+The implementation in `eabc_guard/authority.py::Authority.commit_if_current` holds the authority lock, checks that authority is active and the epoch matches, and runs the callback before releasing the lock. The code comments explicitly limit this guarantee to synchronous in-process callbacks: the callback must cross the effect boundary synchronously and must not enqueue work that can execute after it returns. The implementation explicitly does not claim hardware or cross-process enforcement.
+
+### Revised case-level assessment
+
+| Case | Source-level evidence found | Assessment |
+|---|---|---|
+| C01 — stale / revoked authority before commit | Named tests assert stale-epoch and revoked-authority blocking | IMPLEMENTED IN REFERENCE TESTS; runtime CI status not verified in this audit |
+| C03 — payload/action substitution | Named test asserts changed payload binding is blocked | IMPLEMENTED IN REFERENCE TESTS for payload bytes; not proof of downstream effect identity |
+| C05 — concurrent revocation vs synchronous effect callback | Named threaded test asserts callback/revocation serialization | IMPLEMENTED IN REFERENCE TESTS for this in-process synchronization case |
+| C02 — relevant world/state changes after commit but before an asynchronous or external effect | No evidence found in the inspected guard source that the guard controls a separately queued or external effect after the callback returns | GAP for any broader guarantee beyond the synchronous callback boundary |
+| C04 — replay / duplicate execution opportunity | The inspected `test_guard.py` does not establish single-use sequence/replay prevention | NOT ESTABLISHED by the inspected test file; inspect other implementation paths before making a repository-wide claim |
+| C06 — partial failure and recovery | The inspected source/test does not establish crash recovery or reconciliation across commit, external effect, and evidence release | NOT ESTABLISHED by the inspected test file |
+| C08 — bypass path / hardware isolation | README and source comments disclaim process-level, cross-process, and hardware enforcement | OUT OF SCOPE for this software reference implementation; must be tested at deployment boundary |
+
+These statuses describe what the inspected source asserts, not a fresh test execution. The GitHub combined status query for the audit commit returned no status entries; this is not equivalent to a passing CI run. Repository search did not return indexed matches for the requested HALOS/ComOS Run002 details, so this audit does not claim that those artifacts were independently inspected.
+
+## 9. Updated answer to Stephen
+
+The execution guard's reference implementation does contain a meaningful preventive mechanism: it binds the payload to an authority epoch, blocks stale/revoked authority, and serializes a synchronous in-process effect callback against revocation. Its own contract is narrower than a general claim of continuity to any real-world consequence.
+
+That mechanism does not alone establish that an asynchronous device command, remote service, physical actuator, or bypass path remains governed after the callback returns. Nor does it supply the missing IV-001 evidence binding the exact commit to the observed downstream effect. The external validation and the execution guard therefore address complementary parts of Stephen's question; the end-to-end claim remains unproven until the ARGUS reconstruction and the actual effect-boundary behavior are evidenced.
